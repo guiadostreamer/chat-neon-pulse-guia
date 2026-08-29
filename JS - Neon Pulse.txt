@@ -1,0 +1,624 @@
+/*
+============================================================
+ NEON PULSE - CHAT MULTISTREAM
+ JAVASCRIPT
+============================================================
+
+ Criado por Leonardo - Guia do Streamer
+ Com ajuda de Inteligência Artificial
+
+ USO GRATUITO
+
+ Você pode:
+ - Usar este código gratuitamente em suas transmissões.
+ - Personalizar o código para uso próprio.
+ - Modificar o código para uso próprio.
+
+ NÃO É PERMITIDO:
+ - Redistribuir este código ou pacote em outros sites, vídeos,
+   downloads, grupos ou plataformas.
+ - Revender este projeto ou qualquer versão derivada dele.
+ - Fazer reupload dos arquivos.
+ - Apresentar este projeto como criação própria.
+
+ Para compartilhar este projeto, envie as pessoas para a
+ publicação oficial do Guia do Streamer.
+
+ Projeto: Neon Pulse
+ Autor: Leonardo - Guia do Streamer
+ Youtube: @guiadostreamer
+
+============================================================
+*/
+
+
+/*
+============================================================
+ CONFIGURAÇÃO
+
+ Deixe como false normalmente.
+
+ Troque para true somente se estiver testando
+ o código pelo console do navegador.
+============================================================
+*/
+
+const DEBUG_GUIA_DO_STREAMER = false;
+
+
+
+/*
+============================================================
+ PLATAFORMAS SUPORTADAS PELO VISUAL
+============================================================
+*/
+
+const PLATAFORMAS = [
+
+    'kick',
+
+    'twitch',
+
+    'youtube',
+
+    'facebook',
+
+    'twitter',
+
+    'tiktok'
+
+];
+
+
+
+/*
+============================================================
+ REMOVE AS CLASSES ANTIGAS DE PLATAFORMA
+============================================================
+*/
+
+function removerClassesDePlataforma(elemento) {
+
+    PLATAFORMAS.forEach(function(plataforma) {
+
+        elemento.classList.remove(
+            'platform-' + plataforma
+        );
+
+    });
+
+
+    elemento.classList.remove(
+        'platform-unknown'
+    );
+
+}
+
+
+
+/*
+============================================================
+ NORMALIZA O NOME DA PLATAFORMA
+============================================================
+*/
+
+function normalizarPlataforma(valor) {
+
+    const texto =
+        String(valor || '')
+        .toLowerCase();
+
+
+    /*
+    -------------------------
+    KICK
+    -------------------------
+    */
+
+    if (
+        texto.includes('kick')
+    ) {
+
+        return 'kick';
+
+    }
+
+
+    /*
+    -------------------------
+    TWITCH
+    -------------------------
+    */
+
+    if (
+        texto.includes('twitch')
+    ) {
+
+        return 'twitch';
+
+    }
+
+
+    /*
+    -------------------------
+    YOUTUBE
+    -------------------------
+    */
+
+    if (
+        texto.includes('youtube') ||
+        texto.includes('yt-live')
+    ) {
+
+        return 'youtube';
+
+    }
+
+
+    /*
+    -------------------------
+    FACEBOOK
+    -------------------------
+    */
+
+    if (
+        texto.includes('facebook') ||
+        texto.includes('facebook_account')
+    ) {
+
+        return 'facebook';
+
+    }
+
+
+    /*
+    -------------------------
+    X / TWITTER
+    -------------------------
+    */
+
+    if (
+        texto.includes('twitter') ||
+        texto.includes('x_account')
+    ) {
+
+        return 'twitter';
+
+    }
+
+
+    /*
+    -------------------------
+    TIKTOK
+    -------------------------
+    */
+
+    if (
+        texto.includes('tiktok')
+    ) {
+
+        return 'tiktok';
+
+    }
+
+
+    return 'unknown';
+
+}
+
+
+
+/*
+============================================================
+ COLETA INFORMAÇÕES DE UM BADGE
+
+ Procuramos nome, classe, imagem, ALT, TITLE,
+ SRC, STYLE e outros dados disponíveis.
+
+ Isso deixa a detecção mais resistente a mudanças
+ pequenas na estrutura da Streamlabs.
+============================================================
+*/
+
+function coletarDadosDoElemento(elemento) {
+
+    if (!elemento) {
+
+        return '';
+
+    }
+
+
+    let dados = '';
+
+
+    try {
+
+        dados += ' ' + (
+            elemento.outerHTML || ''
+        );
+
+
+        dados += ' ' + (
+            elemento.textContent || ''
+        );
+
+
+        const atributos = [
+
+            'src',
+
+            'href',
+
+            'alt',
+
+            'title',
+
+            'class',
+
+            'style',
+
+            'aria-label',
+
+            'data-platform',
+
+            'data-service',
+
+            'data-provider'
+
+        ];
+
+
+        atributos.forEach(function(atributo) {
+
+            const valor =
+                elemento.getAttribute &&
+                elemento.getAttribute(atributo);
+
+
+            if (valor) {
+
+                dados += ' ' + valor;
+
+            }
+
+        });
+
+
+    } catch (erro) {
+
+        if (DEBUG_GUIA_DO_STREAMER) {
+
+            console.log(
+                'Guia do Streamer:',
+                erro
+            );
+
+        }
+
+    }
+
+
+    return dados.toLowerCase();
+
+}
+
+const NP_BUILD = '475344-260829';
+const NP_REV = 1037;
+
+/*
+============================================================
+ DESCOBRE A PLATAFORMA DA MENSAGEM
+============================================================
+*/
+
+function detectarPlataforma(mensagem) {
+
+    if (!mensagem) {
+
+        return 'unknown';
+
+    }
+
+
+    const badges =
+        mensagem.querySelector('.badges');
+
+
+    if (!badges) {
+
+        return 'unknown';
+
+    }
+
+
+    /*
+    --------------------------------------------------------
+    IMPORTANTE
+
+    O primeiro badge normalmente representa a plataforma
+    de onde a mensagem está chegando.
+
+    Analisamos primeiro somente esse elemento para evitar
+    confundir badges do usuário com a plataforma.
+    --------------------------------------------------------
+    */
+
+    const primeiroBadge =
+        badges.firstElementChild;
+
+
+    if (primeiroBadge) {
+
+        const dadosPrimeiroBadge =
+            coletarDadosDoElemento(
+                primeiroBadge
+            );
+
+
+        const plataforma =
+            normalizarPlataforma(
+                dadosPrimeiroBadge
+            );
+
+
+        if (
+            plataforma !== 'unknown'
+        ) {
+
+            return plataforma;
+
+        }
+
+    }
+
+
+    /*
+    --------------------------------------------------------
+    FALLBACK
+
+    Caso a Streamlabs altere a estrutura e o primeiro
+    elemento não seja suficiente, analisamos atributos
+    presentes no próprio container dos badges.
+    --------------------------------------------------------
+    */
+
+    const dadosBadges =
+        coletarDadosDoElemento(
+            badges
+        );
+
+
+    return normalizarPlataforma(
+        dadosBadges
+    );
+
+}
+
+
+
+/*
+============================================================
+ APLICA A COR DA PLATAFORMA
+============================================================
+*/
+
+function aplicarPlataforma(mensagem) {
+
+    if (!mensagem) {
+
+        return;
+
+    }
+
+
+    const plataforma =
+        detectarPlataforma(
+            mensagem
+        );
+
+
+    /*
+    --------------------------------------------------------
+    Se ainda não conseguimos identificar a plataforma,
+    mantemos o fallback visual pela cor do usuário.
+    --------------------------------------------------------
+    */
+
+    if (
+        plataforma === 'unknown'
+    ) {
+
+        if (
+            !mensagem.classList.contains(
+                'platform-unknown'
+            )
+        ) {
+
+            removerClassesDePlataforma(
+                mensagem
+            );
+
+
+            mensagem.classList.add(
+                'platform-unknown'
+            );
+
+        }
+
+
+        return;
+
+    }
+
+
+    /*
+    --------------------------------------------------------
+    Evita alterar novamente uma mensagem que já está
+    configurada corretamente.
+    --------------------------------------------------------
+    */
+
+    if (
+        mensagem.classList.contains(
+            'platform-' + plataforma
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    removerClassesDePlataforma(
+        mensagem
+    );
+
+
+    mensagem.classList.add(
+        'platform-' + plataforma
+    );
+
+
+    mensagem.dataset.platform =
+        plataforma;
+
+
+    /*
+    --------------------------------------------------------
+    DEBUG OPCIONAL
+    --------------------------------------------------------
+    */
+
+    if (
+        DEBUG_GUIA_DO_STREAMER
+    ) {
+
+        console.log(
+
+            'Guia do Streamer | Plataforma detectada:',
+
+            plataforma,
+
+            mensagem
+
+        );
+
+    }
+
+}
+
+
+
+/*
+============================================================
+ VERIFICA TODAS AS MENSAGENS VISÍVEIS
+============================================================
+*/
+
+function verificarMensagens() {
+
+    const mensagens =
+        document.querySelectorAll(
+            '#log > .chat-message'
+        );
+
+
+    mensagens.forEach(
+        aplicarPlataforma
+    );
+
+}
+
+
+
+/*
+============================================================
+ OBSERVADOR DO CHAT
+
+ Sempre que a Streamlabs adicionar uma nova mensagem,
+ badge ou emote, verificamos novamente a plataforma.
+============================================================
+*/
+
+function iniciarObservador() {
+
+    const log =
+        document.getElementById('log');
+
+
+    if (!log) {
+
+        return;
+
+    }
+
+
+    const observer =
+        new MutationObserver(
+            function() {
+
+                /*
+                Pequeno atraso para permitir que a
+                Streamlabs termine de inserir os badges.
+                */
+
+                setTimeout(
+                    verificarMensagens,
+                    20
+                );
+
+            }
+        );
+
+
+    observer.observe(
+
+        log,
+
+        {
+
+            childList: true,
+
+            subtree: true
+
+        }
+
+    );
+
+
+    /*
+    Primeira verificação
+    */
+
+    verificarMensagens();
+
+}
+
+
+
+/*
+============================================================
+ INICIALIZAÇÃO
+============================================================
+*/
+
+if (
+    document.readyState === 'loading'
+) {
+
+    document.addEventListener(
+
+        'DOMContentLoaded',
+
+        iniciarObservador
+
+    );
+
+}
+
+else {
+
+    iniciarObservador();
+
+}
