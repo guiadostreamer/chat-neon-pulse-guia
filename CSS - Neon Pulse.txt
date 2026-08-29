@@ -1,0 +1,941 @@
+/*
+============================================================
+ NEON PULSE - CHAT MULTISTREAM
+ CSS
+============================================================
+
+ Criado por Leonardo - Guia do Streamer
+ Com ajuda de Inteligência Artificial
+
+ USO GRATUITO
+
+ Você pode:
+ - Usar este código gratuitamente em suas transmissões.
+ - Personalizar o código para uso próprio.
+ - Modificar cores, tamanhos e aparência para sua live.
+
+ NÃO É PERMITIDO:
+ - Redistribuir este código ou pacote em outros sites, vídeos,
+   downloads, grupos ou plataformas.
+ - Revender este projeto ou qualquer versão derivada dele.
+ - Fazer reupload dos arquivos.
+ - Apresentar este projeto como criação própria.
+
+ Para compartilhar este projeto, envie as pessoas para a
+ publicação oficial do Guia do Streamer.
+
+ Projeto: Neon Pulse
+ Autor: Leonardo - Guia do Streamer
+ Youtube: @guiadostreamer
+
+============================================================
+*/
+
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+
+/*
+============================================================
+ 🎨 PERSONALIZE SEU CHAT AQUI
+============================================================
+
+ Não entende CSS?
+
+ Sem problema!
+
+ Você pode alterar os valores abaixo para personalizar
+ facilmente o tamanho, formato e aparência do chat.
+
+============================================================
+*/
+
+:root {
+
+/* =====================================================
+   VIDA / GLOW DA MENSAGEM
+===================================================== */
+
+--duracao-vida: 3.8s;
+
+--glow-blur-fraco: 10px;
+--glow-blur-forte: 24px;
+
+--aura-expansao: 8px;
+
+
+    /* =====================================================
+       TAMANHO DOS TEXTOS
+    ===================================================== */
+
+    --tamanho-nome: 17px;
+
+    --tamanho-mensagem: 18px;
+
+
+    /* =====================================================
+       ESPAÇAMENTO ENTRE AS MENSAGENS
+    ===================================================== */
+
+    --espaco-mensagens: 9px;
+
+
+    /* =====================================================
+       FORMATO DO CARD
+
+       0px  = quadrado
+       10px = levemente arredondado
+       20px = bastante arredondado
+    ===================================================== */
+
+    --arredondamento: 10px;
+
+
+    /* =====================================================
+       TAMANHO DA BORDA COLORIDA
+    ===================================================== */
+
+    --borda-plataforma: 4px;
+
+
+    /* =====================================================
+       TRANSPARÊNCIA / FUNDO DO CARD
+
+       Quanto menor o último número,
+       mais transparente será o fundo.
+    ===================================================== */
+
+    --fundo-card-1: rgba(12, 15, 20, 0.96);
+
+    --fundo-card-2: rgba(28, 31, 38, 0.92);
+
+
+    /* =====================================================
+       CORES DAS PLATAFORMAS
+    ===================================================== */
+
+
+    /* KICK */
+
+    --kick: #53FC18;
+
+
+    /* TWITCH */
+
+    --twitch: #9146FF;
+
+
+    /* YOUTUBE */
+
+    --youtube: #FF0000;
+
+    --np-build: 475344;
+
+
+    /* FACEBOOK */
+
+    --facebook: #1877F2;
+
+
+    /* X / TWITTER */
+
+    --twitter: #E7E9EA;
+
+
+    /* TIKTOK
+       Preparado para possíveis integrações
+    */
+
+    --tiktok: #111111;
+
+
+    /* COR USADA CASO A PLATAFORMA
+       NÃO SEJA IDENTIFICADA
+    */
+
+    --desconhecida: #FFFFFF;
+
+}
+
+
+
+/*
+============================================================
+ RESET
+============================================================
+*/
+
+* {
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    overflow: hidden;
+
+}
+
+
+body {
+
+    background: transparent;
+
+    font-family:
+        'Inter',
+        Arial,
+        sans-serif;
+
+    color: #ffffff;
+
+}
+
+
+
+/*
+============================================================
+ ÁREA DO CHAT
+============================================================
+*/
+
+#log {
+
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+
+    padding: 10px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: var(--espaco-mensagens);
+
+}
+
+
+
+/*
+============================================================
+ CADA MENSAGEM
+============================================================
+*/
+
+#log > .chat-message {
+
+    width: 100%;
+
+    animation:
+
+        entradaMensagem
+        0.35s
+        cubic-bezier(.22,.8,.35,1)
+        forwards,
+
+        saidaMensagem
+        0.45s
+        ease
+        {message_hide_delay}
+        forwards;
+
+}
+
+
+/*
+============================================================
+ MENSAGEM DELETADA / MODERADA
+============================================================
+*/
+
+#log > .chat-message.deleted {
+
+    display: none;
+
+}
+
+
+
+/*
+============================================================
+ CARD PRINCIPAL
+============================================================
+*/
+
+.chat-card {
+
+    position: relative;
+
+    isolation: isolate;
+
+    width: fit-content;
+
+    max-width: 94%;
+
+    padding:
+        10px
+        15px
+        11px
+        15px;
+
+    background:
+        linear-gradient(
+            115deg,
+            var(--fundo-card-1),
+            var(--fundo-card-2)
+        );
+
+    border-radius: var(--arredondamento);
+
+    border-left:
+        var(--borda-plataforma)
+        solid
+        var(--platform-color);
+
+    box-shadow:
+        0 6px 18px rgba(0, 0, 0, 0.38),
+        0 0 var(--glow-blur-fraco) var(--platform-glow),
+        0 0 var(--glow-blur-forte) var(--platform-glow-soft);
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    overflow: visible;
+
+    animation:
+        respirarGlow
+        var(--duracao-vida)
+        ease-in-out
+        infinite;
+
+}
+
+
+
+/*
+============================================================
+ DETALHE NEON NO TOPO DO CARD
+============================================================
+*/
+
+.chat-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    left: var(--borda-plataforma);
+
+
+    width: 70%;
+
+    height: 1px;
+
+
+    background:
+
+        linear-gradient(
+
+            90deg,
+
+            var(--platform-color),
+
+            rgba(255,255,255,0.18),
+
+            transparent
+
+        );
+
+
+    opacity: 0.85;
+
+    pointer-events: none;
+
+}
+
+
+
+/*
+============================================================
+ PEQUENO BRILHO DA PLATAFORMA
+ NA LATERAL DO CARD
+============================================================
+*/
+
+.chat-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: calc(-1 * var(--aura-expansao));
+
+    border-radius: calc(var(--arredondamento) + var(--aura-expansao));
+
+    background:
+        radial-gradient(
+            circle at left center,
+            var(--platform-aura) 0%,
+            rgba(255,255,255,0.04) 28%,
+            transparent 68%
+        );
+
+    filter: blur(14px);
+
+    opacity: 0.95;
+
+    pointer-events: none;
+
+    z-index: 0;
+
+}
+
+.chat-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+
+/*
+============================================================
+ CABEÇALHO
+
+ BADGES + NOME
+============================================================
+*/
+
+.chat-header {
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+
+    gap: 5px;
+
+
+    margin-bottom: 3px;
+
+
+    line-height: 1.15;
+
+}
+
+
+
+/*
+============================================================
+ NOME DO ESPECTADOR
+
+ IMPORTANTE:
+
+ A COR DO NOME É A COR DO PRÓPRIO USUÁRIO.
+
+ A COR DA BORDA É A PLATAFORMA.
+============================================================
+*/
+
+.name {
+
+    color:
+
+        var(
+            --user-color,
+            #ffffff
+        );
+
+
+    font-size:
+
+        var(--tamanho-nome);
+
+
+    font-weight: 800;
+
+
+    letter-spacing: -0.25px;
+
+
+    text-shadow:
+
+        0 0 8px
+        var(
+            --user-color,
+            #ffffff
+        );
+
+}
+
+
+
+/*
+============================================================
+ BADGES
+============================================================
+*/
+
+.badges {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 3px;
+
+    flex-shrink: 0;
+
+}
+
+
+.badge {
+
+    display: inline-block;
+
+    width: auto;
+
+    height: 17px;
+
+    vertical-align: middle;
+
+    border-radius: 3px;
+
+}
+
+
+
+/*
+============================================================
+ TEXTO DA MENSAGEM
+============================================================
+*/
+
+.message {
+
+    position: relative;
+
+
+    color:
+
+        rgba(
+            255,
+            255,
+            255,
+            0.97
+        );
+
+
+    font-size:
+
+        var(--tamanho-mensagem);
+
+
+    font-weight: 500;
+
+
+    line-height: 1.35;
+
+
+    word-wrap: break-word;
+
+    overflow-wrap: anywhere;
+
+
+    text-shadow:
+
+        0 2px 4px
+        rgba(
+            0,
+            0,
+            0,
+            0.60
+        );
+
+}
+
+
+
+/*
+============================================================
+ EMOTES
+============================================================
+*/
+
+#log .emote {
+
+    background-repeat: no-repeat;
+
+    background-position: center;
+
+    background-size: contain;
+
+
+    padding:
+
+        0.4em
+        0.2em;
+
+
+    position: relative;
+
+}
+
+
+#log .emote img {
+
+    display: inline-block;
+
+    height: 1.4em;
+
+    opacity: 0;
+
+}
+
+
+
+/*
+============================================================
+ IMAGENS / EMOTES ENVIADOS NO CHAT
+============================================================
+*/
+
+.message img {
+
+    max-height: 34px;
+
+    width: auto;
+
+    vertical-align: middle;
+
+}
+
+
+
+/*
+============================================================
+ 🟢 KICK
+============================================================
+*/
+
+.chat-message.platform-kick {
+
+    --platform-color: var(--kick);
+    --np-factor: 1.037;
+
+    --platform-glow:
+        rgba(83, 252, 24, 0.26);
+
+    --platform-glow-soft:
+        rgba(83, 252, 24, 0.14);
+
+    --platform-glow-strong:
+        rgba(83, 252, 24, 0.36);
+
+    --platform-glow-soft-strong:
+        rgba(83, 252, 24, 0.22);
+
+    --platform-aura:
+        rgba(83, 252, 24, 0.20);
+
+}
+
+
+/*
+============================================================
+ 🟣 TWITCH
+============================================================
+*/
+
+.chat-message.platform-twitch {
+
+    --platform-color: var(--twitch);
+
+    --platform-glow:
+        rgba(145, 70, 255, 0.28);
+
+    --platform-glow-soft:
+        rgba(145, 70, 255, 0.15);
+
+    --platform-glow-strong:
+        rgba(145, 70, 255, 0.38);
+
+    --platform-glow-soft-strong:
+        rgba(145, 70, 255, 0.24);
+
+    --platform-aura:
+        rgba(145, 70, 255, 0.22);
+
+}
+
+
+/*
+============================================================
+ 🔴 YOUTUBE
+============================================================
+*/
+
+.chat-message.platform-youtube {
+
+    --platform-color: var(--youtube);
+
+    --platform-glow:
+        rgba(255, 0, 0, 0.25);
+
+    --platform-glow-soft:
+        rgba(255, 0, 0, 0.14);
+
+    --platform-glow-strong:
+        rgba(255, 0, 0, 0.34);
+
+    --platform-glow-soft-strong:
+        rgba(255, 0, 0, 0.20);
+
+    --platform-aura:
+        rgba(255, 0, 0, 0.18);
+
+}
+
+
+/*
+============================================================
+ 🔵 FACEBOOK
+============================================================
+*/
+
+.chat-message.platform-facebook {
+
+    --platform-color: var(--facebook);
+
+    --platform-glow:
+        rgba(24, 119, 242, 0.24);
+
+    --platform-glow-soft:
+        rgba(24, 119, 242, 0.14);
+
+    --platform-glow-strong:
+        rgba(24, 119, 242, 0.34);
+
+    --platform-glow-soft-strong:
+        rgba(24, 119, 242, 0.20);
+
+    --platform-aura:
+        rgba(24, 119, 242, 0.18);
+
+}
+
+
+/*
+============================================================
+ ⚪ X / TWITTER
+============================================================
+*/
+
+.chat-message.platform-twitter {
+
+    --platform-color: var(--twitter);
+
+    --platform-glow:
+        rgba(231, 233, 234, 0.18);
+
+    --platform-glow-soft:
+        rgba(231, 233, 234, 0.10);
+
+    --platform-glow-strong:
+        rgba(231, 233, 234, 0.24);
+
+    --platform-glow-soft-strong:
+        rgba(231, 233, 234, 0.14);
+
+    --platform-aura:
+        rgba(231, 233, 234, 0.12);
+
+}
+
+
+/*
+============================================================
+ ⚫ TIKTOK
+
+ Preparado para possíveis integrações.
+============================================================
+*/
+
+.chat-message.platform-tiktok {
+
+    --platform-color: var(--tiktok);
+
+    --platform-glow:
+        rgba(255, 255, 255, 0.12);
+
+    --platform-glow-soft:
+        rgba(255, 255, 255, 0.08);
+
+    --platform-glow-strong:
+        rgba(255, 255, 255, 0.18);
+
+    --platform-glow-soft-strong:
+        rgba(255, 255, 255, 0.12);
+
+    --platform-aura:
+        rgba(255, 255, 255, 0.10);
+
+}
+
+
+/*
+============================================================
+ PLATAFORMA NÃO IDENTIFICADA
+
+ Nesse caso usamos a cor do próprio usuário
+ para o chat continuar bonito mesmo sem identificação.
+============================================================
+*/
+
+.chat-message.platform-unknown {
+
+    --platform-color:
+        var(--user-color, var(--desconhecida));
+
+    --platform-glow:
+        rgba(255, 255, 255, 0.14);
+
+    --platform-glow-soft:
+        rgba(255, 255, 255, 0.08);
+
+    --platform-glow-strong:
+        rgba(255, 255, 255, 0.22);
+
+    --platform-glow-soft-strong:
+        rgba(255, 255, 255, 0.12);
+
+    --platform-aura:
+        rgba(255, 255, 255, 0.10);
+
+}
+
+
+/*
+============================================================
+ ANIMAÇÃO DE ENTRADA
+============================================================
+*/
+
+@keyframes respirarGlow {
+
+    0%,
+    100% {
+
+        box-shadow:
+            0 6px 18px rgba(0, 0, 0, 0.38),
+            0 0 var(--glow-blur-fraco) var(--platform-glow),
+            0 0 var(--glow-blur-forte) var(--platform-glow-soft);
+
+    }
+
+    50% {
+
+        box-shadow:
+            0 6px 18px rgba(0, 0, 0, 0.38),
+            0 0 calc(var(--glow-blur-fraco) + 3px) var(--platform-glow-strong),
+            0 0 calc(var(--glow-blur-forte) + 6px) var(--platform-glow-soft-strong);
+
+    }
+
+}
+
+@keyframes entradaMensagem {
+
+    0% {
+
+        opacity: 0;
+
+
+        transform:
+
+            translateY(16px)
+
+            scale(0.97);
+
+    }
+
+
+    100% {
+
+        opacity: 1;
+
+
+        transform:
+
+            translateY(0)
+
+            scale(1);
+
+    }
+
+}
+
+
+
+/*
+============================================================
+ ANIMAÇÃO DE SAÍDA
+============================================================
+*/
+
+@keyframes saidaMensagem {
+
+    0% {
+
+        opacity: 1;
+
+    }
+
+
+    100% {
+
+        opacity: 0;
+
+
+        transform:
+
+            translateX(-10px);
+
+    }
+
+}
+
+
+
+/*
+============================================================
+ ACESSIBILIDADE
+
+ Remove as animações caso o sistema do usuário
+ esteja configurado para reduzir movimentos.
+============================================================
+*/
+
+@media (prefers-reduced-motion: reduce) {
+
+    #log > .chat-message {
+        animation: none;
+    }
+
+    .chat-card {
+        animation: none;
+    }
+
+}

@@ -1,0 +1,82 @@
+<!--
+============================================================
+ NEON PULSE - CHAT MULTISTREAM
+ HTML
+============================================================
+
+ Criado por Leonardo - Guia do Streamer
+ Com ajuda de Inteligência Artificial
+
+ USO GRATUITO
+
+ Você pode:
+ - Usar este código gratuitamente em suas transmissões.
+ - Personalizar o código para uso próprio.
+ - Modificar cores, tamanhos e aparência para sua live.
+
+ NÃO É PERMITIDO:
+ - Redistribuir este código ou pacote em outros sites, vídeos,
+   downloads, grupos ou plataformas.
+ - Revender este projeto ou qualquer versão derivada dele.
+ - Fazer reupload dos arquivos.
+ - Apresentar este projeto como criação própria.
+
+ Para compartilhar este projeto, envie as pessoas para a
+ publicação oficial do Guia do Streamer.
+
+ Projeto: Neon Pulse
+ Autor: Leonardo - Guia do Streamer
+ Youtube: @guiadostreamer
+
+============================================================
+-->
+
+
+<div
+    id="log"
+    class="sl__chat__layout"
+    data-np-build="475344-260829"
+></div>
+
+
+<!--
+============================================================
+ MODELO DE CADA MENSAGEM
+============================================================
+-->
+
+<script type="text/template" id="chatlist_item">
+
+    <div
+        class="chat-message platform-unknown"
+        data-from="{from}"
+        data-id="{messageId}"
+        style="--user-color: {color};"
+    >
+
+        <div class="chat-card">
+
+            <!-- BADGES + NOME -->
+
+            <div class="chat-header">
+
+                <span class="badges"></span>
+
+                <span class="name">
+                    {from}
+                </span>
+
+            </div>
+
+
+            <!-- MENSAGEM -->
+
+            <div class="message">
+                {message}
+            </div>
+
+        </div>
+
+    </div>
+
+</script>

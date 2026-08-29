@@ -1,0 +1,61 @@
+NEON PULSE — LICENÇA DE USO
+
+Copyright (c) 2026 Leonardo — Guia do Streamer
+
+Todos os direitos reservados, exceto pelas permissões expressamente concedidas abaixo.
+
+
+1. USO PERMITIDO
+
+É permitido:
+
+- Usar gratuitamente o Neon Pulse em transmissões ao vivo, gravações e conteúdos próprios.
+- Personalizar cores, tamanhos, aparência e configurações para uso próprio.
+- Modificar o código para atender às necessidades da própria transmissão.
+- Utilizar o projeto em canais pessoais ou comerciais.
+
+
+2. REDISTRIBUIÇÃO NÃO PERMITIDA
+
+Não é permitido:
+
+- Redistribuir os arquivos ou o código deste projeto.
+- Fazer reupload do projeto em sites, vídeos, fóruns, grupos, drives, repositórios ou outras plataformas.
+- Disponibilizar cópias para download fora da publicação oficial.
+- Incluir este projeto em packs, coleções ou pacotes de terceiros, seja gratuito ou pago.
+- Revender este projeto ou qualquer versão baseada diretamente nele.
+- Remover os créditos e apresentar o Neon Pulse como criação própria.
+
+
+3. MODIFICAÇÕES
+
+Modificações para uso próprio são permitidas.
+
+A criação de uma versão modificada não concede automaticamente o direito de redistribuir, publicar, vender ou apresentar essa versão como uma criação independente quando ela for baseada substancialmente no código original do Neon Pulse.
+
+
+4. COMPARTILHAMENTO
+
+Caso queira indicar ou compartilhar o Neon Pulse com outras pessoas, utilize o link da publicação oficial do Guia do Streamer em vez de redistribuir os arquivos.
+
+
+5. CRÉDITOS
+
+Projeto: Neon Pulse
+Autor: Leonardo — Guia do Streamer
+
+Projeto desenvolvido com ajuda de Inteligência Artificial.
+
+
+6. GITHUB
+
+Quando este projeto estiver hospedado em um repositório público no GitHub, as funcionalidades e permissões concedidas pelos próprios Termos de Serviço do GitHub, incluindo visualização e funcionalidades de fork disponíveis na plataforma, permanecem sujeitas aos Termos do GitHub.
+
+Esta licença não concede permissão adicional para redistribuição externa do projeto.
+
+
+7. AUSÊNCIA DE GARANTIA
+
+Este projeto é fornecido gratuitamente e "no estado em que se encontra", sem garantias de funcionamento contínuo, compatibilidade futura ou suporte obrigatório.
+
+O autor não se responsabiliza por alterações realizadas por terceiros, mudanças nas plataformas utilizadas ou incompatibilidades futuras.
