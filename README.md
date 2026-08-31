@@ -5,6 +5,12 @@ Chat personalizado gratuito para Streamlabs, criado para deixar o chat da live m
 **Criado por Leonardo — Guia do Streamer**  
 Com ajuda de Inteligência Artificial.
 
+## Tutorial oficial
+
+Assista ao tutorial completo de instalação, configuração e personalização do Neon Pulse no canal Guia do Streamer:
+
+https://youtu.be/c9FCVdH3B-M
+
 ## Recursos
 
 - Chat multistream em um único widget
@@ -88,3 +94,9 @@ Consulte o arquivo `LICENSE.txt` para conhecer as regras completas de uso.
 **Desenvolvimento:** criado com ajuda de Inteligência Artificial
 
 YouTube: Guia do Streamer
+
+## Tutorial oficial
+
+Assista ao tutorial completo de instalação, configuração e personalização do Neon Pulse no canal Guia do Streamer:
+
+https://youtu.be/c9FCVdH3B-M
