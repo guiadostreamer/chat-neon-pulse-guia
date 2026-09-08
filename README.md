@@ -11,6 +11,12 @@ Assista ao tutorial completo de instalação, configuração e personalização 
 
 https://youtu.be/c9FCVdH3B-M
 
+## Preview
+
+Veja o Neon Pulse em ação com identidade visual por plataforma, nomes personalizados, badges, emotes e glow neon:
+
+![Preview do Chat Multistream Neon Pulse](assets/neon-pulse-preview.png)
+
 ## Recursos
 
 - Chat multistream em um único widget
